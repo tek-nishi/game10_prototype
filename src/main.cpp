@@ -79,7 +79,7 @@ int main() {
       // あらかじめマウスカーソル位置→Field位置だけ計算
       auto pos = env.mousePosition();
       glm::ivec2 mouse_pos(pos.x(), pos.y());
-      glm::ivec2 field_pos(roundValue(mouse_pos.x, 128), roundValue(mouse_pos.y, 128));
+      glm::ivec2 field_pos(roundValue(mouse_pos.x, PANEL_SIZE), roundValue(mouse_pos.y, PANEL_SIZE));
 
       auto field_panels = field.enumeratePanels();
       auto blank = field.searchBlank();
@@ -132,16 +132,16 @@ int main() {
         // 完成ずみ森の表示
         for (const auto& comp : completed_forests) {
           for (const auto& pos : comp) {
-            drawFillBox(pos.x * 128 - 64, pos.y * 128 - 64,
-                        128, 128,
+            drawFillBox(pos.x * PANEL_SIZE - PANEL_SIZE / 2, pos.y * PANEL_SIZE - PANEL_SIZE / 2,
+                        PANEL_SIZE, PANEL_SIZE,
                         Color(0, 0.5, 0.0, 0.5));
           }
         }
         // 完成ずみの道の表示
         for (const auto& comp : completed_path) {
           for (const auto& pos : comp) {
-            drawFillBox(pos.x * 128 - 64, pos.y * 128 - 64,
-                        128, 128,
+            drawFillBox(pos.x * PANEL_SIZE - PANEL_SIZE / 2, pos.y * PANEL_SIZE - PANEL_SIZE / 2,
+                        PANEL_SIZE, PANEL_SIZE,
                         Color(0, 0.0, 0.5, 0.5));
           }
         }
@@ -151,7 +151,9 @@ int main() {
         // 手持ちのパネル
         // 左クリック時に収まりそう
         if (can_put) {
-          drawFillBox(field_pos.x * 128 - 64, field_pos.y * 128 - 64, 128, 128, Color(0.5, 0, 0));
+          drawFillBox(field_pos.x * PANEL_SIZE - PANEL_SIZE / 2, field_pos.y * PANEL_SIZE - PANEL_SIZE / 2,
+                      PANEL_SIZE, PANEL_SIZE,
+                      Color(0.5, 0, 0));
         }
 
         drawPanel(hand_panel, mouse_pos, hand_rotation, panel_image);
