@@ -51,16 +51,17 @@ int main() {
     field.addPanel(42, {0, 0}, 0);
 
     // 手持ちのパネル
-    int hand_panel = waiting_panels[0];
-    u_int hand_rotation = 0;
+    int hand_panel        = waiting_panels[0];
+    u_int hand_rotation   = 0;
+    bool check_all_blank  = true;
 
     // 完成した森
     std::vector<std::vector<glm::ivec2>> completed_forests;
     // 完成した道
     std::vector<std::vector<glm::ivec2>> completed_path;
     
-    // 1分モード
-    int game_time = 60 * 60 * 1;
+    // 5分モード
+    int game_time = 60 * 60 * 5;
 
     while (1) {
       if (!env.isOpen()) exit(0);
@@ -79,6 +80,7 @@ int main() {
 
       // 時間切れ判定
       if (active_timeup && !--game_time) {
+        DOUT << "Time up." << std::endl;
         break;
       }
 
@@ -89,6 +91,17 @@ int main() {
 
       auto field_panels = field.enumeratePanels();
       auto blank = field.searchBlank();
+
+      // 新しいパネルを引いたらFieldにおけるか調べる
+      if (check_all_blank) {
+        if (!canPanelPutField(panels[hand_panel], blank,
+                              field, panels)) {
+          // 置けない…
+          DOUT << "Can't put panel." << std::endl;
+          break;
+        }
+        check_all_blank = false;
+      }
 
       bool can_put = false;
       {
@@ -134,10 +147,15 @@ int main() {
 
           waiting_panels.erase(std::begin(waiting_panels));
           // 全パネルを使い切った
-          if (waiting_panels.empty()) break;
+          if (waiting_panels.empty()) {
+            DOUT << "Put all cards." << std::endl;
+            break;
+          }
 
-          hand_panel = waiting_panels[0];
-          hand_rotation = 0;
+          // 新しいパネル
+          hand_panel      = waiting_panels[0];
+          hand_rotation   = 0;
+          check_all_blank = true;
         }
         else if (env.isButtonPushed(Mouse::RIGHT)) {
           // 適当に回転

@@ -31,8 +31,8 @@ bool canPutPanel(const Panel& panel, glm::ivec2 pos, u_int rotation,
 
     // Field上のパネル情報
     const auto& panel_status = field.getPanelStatus(p);
-    const auto& field_panel = panels[panel_status.number];
-    auto field_panel_edge = field_panel.getRotatedEdge(panel_status.rotation);
+    const auto& field_panel  = panels[panel_status.number];
+    auto field_panel_edge    = field_panel.getRotatedEdge(panel_status.rotation);
 
     // エッジが一致していないと置けない
     can_put = ((edge[i] & ~Panel::EDGE) == (field_panel_edge[(i + 2) % 4] & ~Panel::EDGE)); 
@@ -205,5 +205,21 @@ int countTown(const std::vector<std::vector<glm::ivec2>>& completed,
     }
   }
   return town_num.size();
+}
+
+
+// 手持ちのパネルがフィールドにおけるか調べる
+bool canPanelPutField(const Panel& panel, const std::vector<glm::ivec2>& blank,
+                      const Field& field, const std::vector<Panel>& panels) {
+  // 総当たりで調査
+  for (const auto& pos : blank) {
+    for (u_int i = 0; i < 4; ++i) { 
+      if (canPutPanel(panel, pos, i,
+                      field, panels)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
