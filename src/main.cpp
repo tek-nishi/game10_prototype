@@ -39,7 +39,7 @@ int main() {
     {
       // 最初に置くパネルを取り除いてからシャッフル
       auto it = std::find(std::begin(waiting_panels), std::end(waiting_panels), 42);
-      waiting_panels.erase(it);
+      if (it != std::end(waiting_panels)) waiting_panels.erase(it);
 
       std::mt19937 engine;
       std::shuffle(std::begin(waiting_panels), std::end(waiting_panels), engine);
@@ -133,6 +133,8 @@ int main() {
           }
 
           waiting_panels.erase(std::begin(waiting_panels));
+          // 全パネルを使い切った
+          if (waiting_panels.empty()) break;
 
           hand_panel = waiting_panels[0];
           hand_rotation = 0;
