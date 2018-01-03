@@ -48,6 +48,9 @@ int main() {
 
   // 完成した森
   std::vector<std::vector<glm::ivec2>> completed_forests;
+  // 完成した道
+  std::vector<std::vector<glm::ivec2>> completed_path;
+  
 
   Texture panel_image("res/panels.png");
 
@@ -74,11 +77,21 @@ int main() {
       if (env.isButtonPushed(Mouse::LEFT) && can_put) {
         field.addPanel(hand_panel, field_pos, hand_rotation);
 
-        // 森完成チェック
-        auto completed = checkForestEdge(field_pos, field, panels);
-        if (!completed.empty()) {
-          // TIPS コンテナ同士の連結
-          std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_forests));
+        {
+          // 森完成チェック
+          auto completed = checkForestEdge(field_pos, field, panels);
+          if (!completed.empty()) {
+            // TIPS コンテナ同士の連結
+            std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_forests));
+          }
+        }
+        {
+          // 道完成チェック
+          auto completed = checkPathEdge(field_pos, field, panels);
+          if (!completed.empty()) {
+            // TIPS コンテナ同士の連結
+            std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_path));
+          }
         }
 
         waiting_panels.erase(std::begin(waiting_panels));
@@ -104,6 +117,16 @@ int main() {
           drawFillBox(pos.x * 128 - 64, pos.y * 128 - 64,
                       128, 128,
                       Color(0, 0.5, 0.0, 0.5));
+        }
+      }
+    }
+    {
+      // 完成ずみの道の表示
+      for (const auto& comp : completed_path) {
+        for (const auto& pos : comp) {
+          drawFillBox(pos.x * 128 - 64, pos.y * 128 - 64,
+                      128, 128,
+                      Color(0, 0.0, 0.5, 0.5));
         }
       }
     }
