@@ -54,9 +54,17 @@ int main() {
 
   Texture panel_image("res/panels.png");
 
+  // 完成したのを表示
+  bool disp_completed = false;
+
 
   while (env.isOpen()) {
     env.begin();
+
+    if (env.isKeyPushed('D')) {
+      disp_completed = !disp_completed;
+    }
+
 
     // あらかじめマウスカーソル位置→Field位置だけ計算
     auto pos = env.mousePosition();
@@ -110,7 +118,7 @@ int main() {
     drawFieldPanels(field_panels, panel_image);
     drawFieldBlank(blank);
 
-    {
+    if (disp_completed) {
       // 完成ずみ森の表示
       for (const auto& comp : completed_forests) {
         for (const auto& pos : comp) {
@@ -119,8 +127,6 @@ int main() {
                       Color(0, 0.5, 0.0, 0.5));
         }
       }
-    }
-    {
       // 完成ずみの道の表示
       for (const auto& comp : completed_path) {
         for (const auto& pos : comp) {
