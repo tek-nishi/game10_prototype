@@ -223,6 +223,18 @@ std::vector<glm::ivec2> isCompleteChurch(glm::ivec2 pos,
   return completed;
 }
 
+// 深い森を含むか調べる
+bool isDeepForest(const std::vector<glm::ivec2>& completed,
+                  const Field& field, const std::vector<Panel>& panels) {
+  for (const auto& pos : completed) {
+    const auto& status = field.getPanelStatus(pos);
+    const auto& panel  = panels[status.number];
+    if (panel.getAttribute() & Panel::DEEP_FOREST) return true;
+  }
+
+  return false;
+}
+
 
 // 森(or道)総面積
 int countTotalAttribute(const std::vector<std::vector<glm::ivec2>>& completed,

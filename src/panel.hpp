@@ -59,12 +59,12 @@ private:
 // 初期パネル生成
 std::vector<Panel> createPanels() {
   std::vector<Panel> panels = {
-    { 0, Panel::GRASS,  Panel::FOREST, Panel::FOREST, Panel::FOREST },
+    { Panel::DEEP_FOREST, Panel::GRASS,  Panel::FOREST, Panel::FOREST, Panel::FOREST },
     { 0, Panel::PATH,   Panel::PATH,   Panel::FOREST, Panel::FOREST },
     { Panel::TOWN, Panel::FOREST | Panel::EDGE, Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE },
     { 0, Panel::GRASS,  Panel::GRASS,  Panel::PATH,   Panel::PATH },
     
-    { 0, Panel::GRASS,  Panel::FOREST, Panel::FOREST, Panel::FOREST },
+    { Panel::DEEP_FOREST, Panel::GRASS,  Panel::FOREST, Panel::FOREST, Panel::FOREST },
     { 0, Panel::PATH,   Panel::PATH,   Panel::FOREST, Panel::FOREST },
     { Panel::TOWN, Panel::FOREST | Panel::EDGE, Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE },
     { 0, Panel::GRASS,  Panel::GRASS,  Panel::PATH,   Panel::PATH },
@@ -92,12 +92,12 @@ std::vector<Panel> createPanels() {
 
     { 0, Panel::GRASS,  Panel::PATH,   Panel::GRASS,  Panel::PATH },
     { Panel::TOWN, Panel::GRASS,  Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE },
-    { 0, Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::PATH | Panel::EDGE },
+    { Panel::DEEP_FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::PATH | Panel::EDGE },
     { 0, Panel::GRASS,  Panel::FOREST, Panel::GRASS,  Panel::FOREST },
     
     { 0, Panel::GRASS,  Panel::PATH,   Panel::GRASS,  Panel::PATH },
     { Panel::TOWN, Panel::GRASS,  Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE },
-    { 0, Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::PATH | Panel::EDGE },
+    { Panel::DEEP_FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::PATH | Panel::EDGE },
     { 0, Panel::GRASS,  Panel::FOREST, Panel::GRASS,  Panel::FOREST },
     
     { Panel::CHURCH, Panel::GRASS,  Panel::GRASS,  Panel::GRASS, Panel::GRASS },
@@ -122,23 +122,23 @@ std::vector<Panel> createPanels() {
     
     
     { 0, Panel::PATH,   Panel::FOREST, Panel::FOREST, Panel::PATH },
-    { 0, Panel::FOREST, Panel::GRASS,  Panel::FOREST, Panel::FOREST },
+    { Panel::DEEP_FOREST, Panel::FOREST, Panel::GRASS,  Panel::FOREST, Panel::FOREST },
     { 0, Panel::GRASS,  Panel::GRASS,  Panel::FOREST | Panel::EDGE, Panel::GRASS },
     { 0, Panel::PATH,   Panel::FOREST | Panel::EDGE, Panel::PATH,   Panel::GRASS },
     
     { 0, Panel::PATH,   Panel::FOREST, Panel::FOREST, Panel::PATH },
-    { 0, Panel::FOREST, Panel::GRASS,  Panel::FOREST, Panel::FOREST },
+    { Panel::DEEP_FOREST, Panel::FOREST, Panel::GRASS,  Panel::FOREST, Panel::FOREST },
     { 0, Panel::GRASS,  Panel::GRASS,  Panel::FOREST | Panel::EDGE, Panel::GRASS },
     { 0, Panel::PATH,   Panel::FOREST | Panel::EDGE, Panel::PATH,   Panel::GRASS },
     
     { 0, Panel::FOREST, Panel::FOREST, Panel::PATH,   Panel::PATH },
-    { 0, Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST },
-    { 0, Panel::FOREST, Panel::PATH | Panel::EDGE,   Panel::FOREST, Panel::FOREST },
+    { Panel::DEEP_FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST },
+    { Panel::DEEP_FOREST, Panel::FOREST, Panel::PATH | Panel::EDGE,   Panel::FOREST, Panel::FOREST },
     { Panel::TOWN, Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE },
     
     { 0, Panel::FOREST, Panel::FOREST, Panel::PATH,   Panel::PATH },
-    { 0, Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST },
-    { 0, Panel::FOREST, Panel::PATH | Panel::EDGE,   Panel::FOREST, Panel::FOREST },
+    { Panel::DEEP_FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST },
+    { Panel::DEEP_FOREST, Panel::FOREST, Panel::PATH | Panel::EDGE,   Panel::FOREST, Panel::FOREST },
     { Panel::TOWN, Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE,   Panel::PATH | Panel::EDGE },
   };
 

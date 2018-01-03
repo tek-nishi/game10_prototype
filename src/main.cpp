@@ -57,6 +57,8 @@ int main() {
 
     // 完成した森
     std::vector<std::vector<glm::ivec2>> completed_forests;
+    // 深い森
+    std::vector<u_int> deep_forest;
     // 完成した道
     std::vector<std::vector<glm::ivec2>> completed_path;
     // 完成した教会
@@ -123,10 +125,19 @@ int main() {
             if (!completed.empty()) {
               // 得点
               DOUT << "Forest: " << completed.size() << '\n';
+              u_int deep_num = 0;
               for (const auto& comp : completed) {
                 DOUT << " Point: " << comp.size() << '\n';
+
+                // 深い森
+                bool deep = isDeepForest(comp, field, panels);
+                if (deep) {
+                  deep_num += 1;
+                }
+                deep_forest.push_back(deep ? 1 : 0);
               }
-              DOUT << std::endl;
+              DOUT << "  Deep: " << deep_num 
+                   << std::endl;
 
               // TIPS コンテナ同士の連結
               std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_forests));
@@ -219,6 +230,7 @@ int main() {
     // 結果
     DOUT << "Forest: " << completed_forests.size() << '\n'
          << "  area: " << countTotalAttribute(completed_forests, field, panels) << '\n'
+         << "  deep: " << std::count(std::begin(deep_forest), std::end(deep_forest), 1) << '\n'
          << "  Path: " << completed_path.size() << '\n'
          << "length: " << countTotalAttribute(completed_path, field, panels) << '\n'
          << "  Town: " << countTown(completed_path, field, panels)
