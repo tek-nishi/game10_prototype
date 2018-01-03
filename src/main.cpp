@@ -4,6 +4,7 @@
 //
 
 #include "lib/framework.hpp"
+#include <iostream>
 #include "utility.hpp"
 #include "logic.hpp"
 #include "view.hpp"
@@ -25,6 +26,8 @@ int main() {
 
   // 完成したのを表示
   bool disp_completed = false;
+  // 制限時間有効
+  bool active_timeup = true;
 
   while (1) {
     // パネルを用意(通し番号で管理)
@@ -56,23 +59,26 @@ int main() {
     // 完成した道
     std::vector<std::vector<glm::ivec2>> completed_path;
     
-    // 3分モード
-    int game_time = 60 * 60 * 3;
+    // 1分モード
+    int game_time = 60 * 60 * 1;
 
     while (1) {
       if (!env.isOpen()) exit(0);
 
       env.begin();
 
-      // 時間切れ判定
-      if (!--game_time) {
-        break;
-      }
-
       if (env.isKeyPushed('D')) {
         disp_completed = !disp_completed;
       }
+      if (env.isKeyPushed('T')) {
+        active_timeup = !active_timeup;
+      }
       if (env.isKeyPushed('R')) {
+        break;
+      }
+
+      // 時間切れ判定
+      if (active_timeup && !--game_time) {
         break;
       }
 
@@ -99,6 +105,13 @@ int main() {
             // 森完成チェック
             auto completed = isCompleteAttribute(Panel::FOREST, field_pos, field, panels);
             if (!completed.empty()) {
+              // 得点
+              DOUT << "Forest: " << completed.size() << '\n';
+              for (const auto& comp : completed) {
+                DOUT << " Point: " << comp.size() << '\n';
+              }
+              DOUT << std::endl;
+
               // TIPS コンテナ同士の連結
               std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_forests));
             }
@@ -107,6 +120,13 @@ int main() {
             // 道完成チェック
             auto completed = isCompleteAttribute(Panel::PATH, field_pos, field, panels);
             if (!completed.empty()) {
+              // 得点
+              DOUT << "  Path: " << completed.size() << '\n';
+              for (const auto& comp : completed) {
+                DOUT << " Point: " << comp.size() << '\n';
+              }
+              DOUT << std::endl;
+
               // TIPS コンテナ同士の連結
               std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_path));
             }
@@ -124,7 +144,6 @@ int main() {
       }
 
       drawFieldGrid();
-
       drawFieldPanels(field_panels, panel_image);
       drawFieldBlank(blank);
 
@@ -164,6 +183,14 @@ int main() {
     env.flushInput();
 
     // 結果
+    DOUT << "Forest: " << completed_forests.size() << '\n'
+         << "  Path: " << completed_path.size() << '\n'
+         << "  Town: " << countTown(completed_path, field, panels)
+         << std::endl;
+
+    auto field_panels = field.enumeratePanels();
+
+    // 結果
     while (1) {
       if (!env.isOpen()) exit(0);
     
@@ -172,6 +199,10 @@ int main() {
       if (env.isButtonPushed(Mouse::LEFT)) {
         break;
       }
+      
+
+      drawFieldGrid();
+      drawFieldPanels(field_panels, panel_image);
 
       env.end();
     }

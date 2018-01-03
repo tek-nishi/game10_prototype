@@ -6,7 +6,7 @@
 
 #include "panel.hpp"
 #include "field.hpp"
-#include <iostream>
+#include <set>
 
 
 // Fieldにパネルが置けるか判定
@@ -168,3 +168,25 @@ std::vector<std::vector<glm::ivec2>> isCompleteAttribute(u_int attribute,
 
   return completed;
 }
+
+
+// 完成した街の数を数える
+int countTown(const std::vector<std::vector<glm::ivec2>>& completed_path,
+              const Field& field, const std::vector<Panel>& panels) {
+  // 道が１本も完成していない状態
+  if (completed_path.empty()) return 0;
+
+  // TIPS 同じ場所にある街を再カウントしない
+  std::set<glm::ivec2, LessVec<glm::ivec2>> town_num;
+
+  for (const auto& comp : completed_path) {
+    for (const auto& p : comp) {
+      const auto& status = field.getPanelStatus(p);
+      if (panels[status.number].getAttribute() & (Panel::TOWN | Panel::CASTLE)) {
+        town_num.insert(p);
+      }
+    }
+  }
+  return town_num.size();
+}
+
