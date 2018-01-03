@@ -79,7 +79,7 @@ int main() {
 
         {
           // 森完成チェック
-          auto completed = checkForestEdge(field_pos, field, panels);
+          auto completed = isCompleteAttribute(Panel::FOREST, field_pos, field, panels);
           if (!completed.empty()) {
             // TIPS コンテナ同士の連結
             std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_forests));
@@ -87,7 +87,7 @@ int main() {
         }
         {
           // 道完成チェック
-          auto completed = checkPathEdge(field_pos, field, panels);
+          auto completed = isCompleteAttribute(Panel::PATH, field_pos, field, panels);
           if (!completed.empty()) {
             // TIPS コンテナ同士の連結
             std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_path));
