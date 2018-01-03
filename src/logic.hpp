@@ -170,6 +170,60 @@ std::vector<std::vector<glm::ivec2>> isCompleteAttribute(u_int attribute,
 }
 
 
+// 周囲８箇所にパネルがあるか調査
+bool isPanelAroundPos(glm::ivec2 pos, const Field& field) {
+  // 周囲を時計回りに調べる
+  const glm::ivec2 offsets[] = {
+    {  0,  1 },
+    {  1,  1 },
+    {  1,  0 },
+    {  1, -1 },
+    {  0, -1 },
+    { -1, -1 },
+    { -1,  0 },
+    { -1,  1 },
+  };
+
+  for (const auto& ofs : offsets) {
+    if (!field.existsPanel(pos + ofs)) return false;
+  }
+
+  return true;
+}
+
+// 教会が完成したか調査
+std::vector<glm::ivec2> isCompleteChurch(glm::ivec2 pos,
+                                         const Field& field, const std::vector<Panel>& panels) {
+  std::vector<glm::ivec2> completed;
+
+  const glm::ivec2 offsets[] = {
+    {  0,  0 },
+    {  0,  1 },
+    {  1,  1 },
+    {  1,  0 },
+    {  1, -1 },
+    {  0, -1 },
+    { -1, -1 },
+    { -1,  0 },
+    { -1,  1 },
+  };
+
+  for (const auto& ofs : offsets) {
+    auto p = pos + ofs;
+    if (!field.existsPanel(p)) continue;
+
+    const auto& status = field.getPanelStatus(p);
+    const auto& panel  = panels[status.number];
+    if (panel.getAttribute() & Panel::CHURCH) {
+      if (isPanelAroundPos(p, field)) {
+        completed.push_back(p);
+      }
+    }
+  }
+  return completed;
+}
+
+
 // 森(or道)総面積
 int countTotalAttribute(const std::vector<std::vector<glm::ivec2>>& completed,
                         const Field& field, const std::vector<Panel>& panels) {

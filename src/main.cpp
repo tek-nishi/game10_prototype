@@ -59,7 +59,10 @@ int main() {
     std::vector<std::vector<glm::ivec2>> completed_forests;
     // 完成した道
     std::vector<std::vector<glm::ivec2>> completed_path;
-    
+    // 完成した教会
+    std::vector<glm::ivec2> completed_church;
+
+
     // 5分モード
     int game_time = 60 * 60 * 5;
 
@@ -90,7 +93,7 @@ int main() {
       glm::ivec2 field_pos(roundValue(mouse_pos.x, PANEL_SIZE), roundValue(mouse_pos.y, PANEL_SIZE));
 
       auto field_panels = field.enumeratePanels();
-      auto blank = field.searchBlank();
+      auto blank        = field.searchBlank();
 
       // 新しいパネルを引いたらFieldにおけるか調べる
       if (check_all_blank) {
@@ -142,6 +145,17 @@ int main() {
 
               // TIPS コンテナ同士の連結
               std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_path));
+            }
+          }
+          {
+            // 教会完成チェック
+            auto completed = isCompleteChurch(field_pos, field, panels);
+            if (!completed.empty()) {
+              // 得点
+              DOUT << "Church: " << completed.size() << std::endl;
+              
+              // TIPS コンテナ同士の連結
+              std::copy(std::begin(completed), std::end(completed), std::back_inserter(completed_church));
             }
           }
 
