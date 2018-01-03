@@ -170,16 +170,33 @@ std::vector<std::vector<glm::ivec2>> isCompleteAttribute(u_int attribute,
 }
 
 
+// 森(or道)総面積
+int countTotalAttribute(const std::vector<std::vector<glm::ivec2>>& completed,
+                        const Field& field, const std::vector<Panel>& panels) {
+  if (completed.empty()) return 0;
+
+  int num = 0;
+  for (const auto& comp : completed) {
+    // TIPS 同じ場所にあるを森は再カウントしない
+    std::set<glm::ivec2, LessVec<glm::ivec2>> area;
+    for (const auto& p : comp) {
+      area.insert(p);
+    }
+    num += area.size();
+  }
+  return num;
+}
+
 // 完成した街の数を数える
-int countTown(const std::vector<std::vector<glm::ivec2>>& completed_path,
+int countTown(const std::vector<std::vector<glm::ivec2>>& completed,
               const Field& field, const std::vector<Panel>& panels) {
   // 道が１本も完成していない状態
-  if (completed_path.empty()) return 0;
+  if (completed.empty()) return 0;
 
   // TIPS 同じ場所にある街を再カウントしない
   std::set<glm::ivec2, LessVec<glm::ivec2>> town_num;
 
-  for (const auto& comp : completed_path) {
+  for (const auto& comp : completed) {
     for (const auto& p : comp) {
       const auto& status = field.getPanelStatus(p);
       if (panels[status.number].getAttribute() & (Panel::TOWN | Panel::CASTLE)) {

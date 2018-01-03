@@ -184,7 +184,9 @@ int main() {
 
     // 結果
     DOUT << "Forest: " << completed_forests.size() << '\n'
+         << "  area: " << countTotalAttribute(completed_forests, field, panels) << '\n'
          << "  Path: " << completed_path.size() << '\n'
+         << "length: " << countTotalAttribute(completed_path, field, panels) << '\n'
          << "  Town: " << countTown(completed_path, field, panels)
          << std::endl;
 
