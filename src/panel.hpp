@@ -10,10 +10,11 @@
 struct Panel {
   enum {
     // ４辺の構造
-    NONE,         // 制約なし
-    PATH,         // 道
-    GRASS,        // 草原
-    FOREST,       // 森
+    PATH   = 1 << 0,         // 道
+    GRASS  = 1 << 1,         // 草原
+    FOREST = 1 << 2,         // 森
+
+    EDGE = 1 << 16  // 端
   };
 
   Panel(int up, int right, int bottom, int left)
@@ -51,31 +52,31 @@ std::vector<Panel> createPanels() {
   std::vector<Panel> panels = {
     { Panel::GRASS,  Panel::FOREST, Panel::FOREST, Panel::FOREST },
     { Panel::PATH,   Panel::PATH,   Panel::FOREST, Panel::FOREST },
-    { Panel::FOREST, Panel::PATH,   Panel::PATH,   Panel::PATH },
+    { Panel::FOREST | Panel::EDGE, Panel::PATH,   Panel::PATH,   Panel::PATH },
     { Panel::GRASS,  Panel::GRASS,  Panel::PATH,   Panel::PATH },
     
     { Panel::GRASS,  Panel::FOREST, Panel::FOREST, Panel::FOREST },
     { Panel::PATH,   Panel::PATH,   Panel::FOREST, Panel::FOREST },
-    { Panel::FOREST, Panel::PATH,   Panel::PATH,   Panel::PATH },
+    { Panel::FOREST | Panel::EDGE, Panel::PATH,   Panel::PATH,   Panel::PATH },
     { Panel::GRASS,  Panel::GRASS,  Panel::PATH,   Panel::PATH },
     
-    { Panel::FOREST, Panel::GRASS,  Panel::GRASS, Panel::GRASS },
+    { Panel::FOREST | Panel::EDGE, Panel::GRASS,  Panel::GRASS, Panel::GRASS },
     { Panel::FOREST, Panel::FOREST, Panel::GRASS, Panel::GRASS },
-    { Panel::PATH,   Panel::PATH,   Panel::GRASS, Panel::FOREST },
+    { Panel::PATH,   Panel::PATH,   Panel::GRASS, Panel::FOREST | Panel::EDGE },
     { Panel::PATH,   Panel::GRASS,  Panel::GRASS, Panel::PATH },
     
-    { Panel::FOREST, Panel::GRASS,  Panel::GRASS, Panel::GRASS },
+    { Panel::FOREST | Panel::EDGE, Panel::GRASS,  Panel::GRASS, Panel::GRASS },
     { Panel::FOREST, Panel::FOREST, Panel::GRASS, Panel::GRASS },
-    { Panel::PATH,   Panel::PATH,   Panel::GRASS, Panel::FOREST },
+    { Panel::PATH,   Panel::PATH,   Panel::GRASS, Panel::FOREST | Panel::EDGE },
     { Panel::PATH,   Panel::GRASS,  Panel::GRASS, Panel::PATH },
     
-    { Panel::GRASS, Panel::FOREST, Panel::GRASS, Panel::FOREST },
-    { Panel::GRASS, Panel::PATH,   Panel::PATH,  Panel::FOREST },
+    { Panel::GRASS, Panel::FOREST | Panel::EDGE, Panel::GRASS, Panel::FOREST | Panel::EDGE },
+    { Panel::GRASS, Panel::PATH,   Panel::PATH,  Panel::FOREST | Panel::EDGE },
     { Panel::GRASS, Panel::PATH,   Panel::GRASS, Panel::PATH },
     { Panel::GRASS, Panel::GRASS,  Panel::PATH,  Panel::PATH },
     
-    { Panel::GRASS, Panel::FOREST, Panel::GRASS, Panel::FOREST },
-    { Panel::GRASS, Panel::PATH,   Panel::PATH,  Panel::FOREST },
+    { Panel::GRASS, Panel::FOREST | Panel::EDGE, Panel::GRASS, Panel::FOREST | Panel::EDGE },
+    { Panel::GRASS, Panel::PATH,   Panel::PATH,  Panel::FOREST | Panel::EDGE },
     { Panel::GRASS, Panel::PATH,   Panel::GRASS, Panel::PATH },
     { Panel::GRASS, Panel::GRASS,  Panel::PATH,  Panel::PATH },
 
@@ -91,35 +92,35 @@ std::vector<Panel> createPanels() {
     { Panel::GRASS,  Panel::FOREST, Panel::GRASS,  Panel::FOREST },
     
     { Panel::GRASS,  Panel::GRASS,  Panel::GRASS, Panel::GRASS },
-    { Panel::PATH,   Panel::FOREST, Panel::PATH,  Panel::GRASS },
+    { Panel::PATH,   Panel::FOREST | Panel::EDGE, Panel::PATH,  Panel::GRASS },
     { Panel::FOREST, Panel::GRASS,  Panel::GRASS, Panel::FOREST },
     { Panel::GRASS,  Panel::GRASS,  Panel::GRASS, Panel::GRASS },
     
     { Panel::GRASS,  Panel::GRASS,  Panel::GRASS, Panel::GRASS },
-    { Panel::PATH,   Panel::FOREST, Panel::PATH,  Panel::GRASS },
+    { Panel::PATH,   Panel::FOREST | Panel::EDGE, Panel::PATH,  Panel::GRASS },
     { Panel::FOREST, Panel::GRASS,  Panel::GRASS, Panel::FOREST },
     { Panel::GRASS,  Panel::GRASS,  Panel::GRASS, Panel::GRASS },
     
     { Panel::GRASS, Panel::PATH,   Panel::GRASS,  Panel::PATH },
     { Panel::PATH,  Panel::PATH,   Panel::GRASS,  Panel::PATH },
     { Panel::GRASS, Panel::GRASS,  Panel::GRASS,  Panel::PATH },
-    { Panel::GRASS, Panel::FOREST, Panel::FOREST, Panel::GRASS },
+    { Panel::GRASS, Panel::FOREST | Panel::EDGE, Panel::FOREST | Panel::EDGE, Panel::GRASS },
 
     { Panel::GRASS, Panel::PATH,   Panel::GRASS,  Panel::PATH },
     { Panel::PATH,  Panel::PATH,   Panel::GRASS,  Panel::PATH },
     { Panel::GRASS, Panel::GRASS,  Panel::GRASS,  Panel::PATH },
-    { Panel::GRASS, Panel::FOREST, Panel::FOREST, Panel::GRASS },
+    { Panel::GRASS, Panel::FOREST | Panel::EDGE, Panel::FOREST | Panel::EDGE, Panel::GRASS },
     
     
     { Panel::PATH,   Panel::FOREST, Panel::FOREST, Panel::PATH },
     { Panel::FOREST, Panel::GRASS,  Panel::FOREST, Panel::FOREST },
-    { Panel::GRASS,  Panel::GRASS,  Panel::FOREST, Panel::GRASS },
-    { Panel::PATH,   Panel::FOREST, Panel::PATH,   Panel::GRASS },
+    { Panel::GRASS,  Panel::GRASS,  Panel::FOREST | Panel::EDGE, Panel::GRASS },
+    { Panel::PATH,   Panel::FOREST | Panel::EDGE, Panel::PATH,   Panel::GRASS },
     
     { Panel::PATH,   Panel::FOREST, Panel::FOREST, Panel::PATH },
     { Panel::FOREST, Panel::GRASS,  Panel::FOREST, Panel::FOREST },
-    { Panel::GRASS,  Panel::GRASS,  Panel::FOREST, Panel::GRASS },
-    { Panel::PATH,   Panel::FOREST, Panel::PATH,   Panel::GRASS },
+    { Panel::GRASS,  Panel::GRASS,  Panel::FOREST | Panel::EDGE, Panel::GRASS },
+    { Panel::PATH,   Panel::FOREST | Panel::EDGE, Panel::PATH,   Panel::GRASS },
     
     { Panel::FOREST, Panel::FOREST, Panel::PATH,   Panel::PATH },
     { Panel::FOREST, Panel::FOREST, Panel::FOREST, Panel::FOREST },

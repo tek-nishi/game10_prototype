@@ -9,7 +9,6 @@
 #include <algorithm>
 
 
-
 // Fieldに置かれたパネルの状態
 struct PanelStatus {
   glm::ivec2 position;
